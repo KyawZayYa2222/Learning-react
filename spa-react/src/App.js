@@ -1,24 +1,22 @@
-import { useState } from 'react';
-import './App.css';
-// import OneImg from './assets/one.jpg';
+import React, { useState } from 'react'
 
-
-function App() {
-  let [name, setName] = useState("Kyaw Zay Ya"); // [getter, setterFun]
-
-  let changeName = () => {
-    setName("Mg Mg");
-    console.log(name);
-  }
+export default function App() {
+  let [posts, SetPosts] = useState([
+    {id: 1, title: 'Apple'},
+    {id: 2, title: 'Orange'},
+    {id: 3, title: 'Mange'}
+  ]);
 
   return (
-    <div className="App">
-      <h1>{name}</h1>
-      {/* <img src={OneImg} alt="" /> */}
-
-      <button onClick={changeName}>Change</button>
+    <div>
+      <h1>Posts</h1>
+      <ul>
+        {
+          posts.map((post) => (
+            <li key={post.id}>{post.title}</li>
+          ))
+        }
+      </ul>
     </div>
-  );
+  )
 }
-
-export default App;
