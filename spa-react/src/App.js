@@ -1,22 +1,30 @@
 import React, { useState } from 'react'
 
 export default function App() {
-  let [count, setCount] = useState(0);
+  let [posts, SetPosts] = useState([
+    {id: 1, title: 'Apple'},
+    {id: 2, title: 'Orange'},
+    {id: 3, title: 'Mange'}
+  ]);
 
-  let increaseCount = () => {
-    // setCount(count+1); // should not do 
-    // setCount(count+1);
-    // setCount(count+1);
-    
-    setCount((prevCount) => prevCount+1);  // should do
-    setCount((prevCount) => prevCount+1);
-    setCount((prevCount) => prevCount+1);
+  // delete 
+  let deletePost = (id) => {
+    SetPosts((prevPost => posts.filter((post) => post.id !== id)));
   }
 
   return (
     <div>
-      <h1>Count {count}</h1>
-      <button onClick={increaseCount}>add</button>
+      <h1>Posts</h1>
+      <ul>
+        {
+          posts.map((post) => (
+            <li key={post.id}>
+              {post.title}
+            <button onClick={() => deletePost(post.id)}>Delete</button>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   )
 }
