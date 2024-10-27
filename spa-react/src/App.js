@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import Navbar from './components/navbar';
-import Post from './components/post';
+import Navbar from './components/Navbar';
+import Post from './components/Post';
+import Modal from './components/Modal';
 
 export default function App() {
   let [posts, SetPosts] = useState([
@@ -13,6 +14,16 @@ export default function App() {
     <>
     <Navbar/>
     <Post posts={posts}></Post>
+    <Modal>
+    <h1 className="title">Modal</h1>
+    <hr />
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+      Deleniti vitae repudiandae quo sequi ea natus magnam? 
+      Voluptatibus mollitia perspiciatis facilis enim corrupti, 
+      sunt qui repellendus consequatur sit at delectus error.
+    </p>
+    </Modal>
     </>
   )
 }

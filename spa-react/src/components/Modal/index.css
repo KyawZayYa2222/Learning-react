@@ -1,0 +1,24 @@
+.modal-con {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-con .modal {
+    width: 400px;
+    background-color: rgb(184, 184, 184);
+    padding: 1em;
+    border: 2px solid gray;
+    border-radius: 1em;
+}
+
+.modal .title {
+    padding: 0;
+    margin: 0;
+}
