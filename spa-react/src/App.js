@@ -10,20 +10,24 @@ export default function App() {
     {id: 3, title: 'Mange'}
   ]);
 
+  let [showModal, setShowModal] = useState(false);
+
   return (
     <>
-    <Navbar/>
+    <Navbar setShowModal={setShowModal}/>
     <Post posts={posts}></Post>
-    <Modal>
-    <h1 className="title">Modal</h1>
-    <hr />
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-      Deleniti vitae repudiandae quo sequi ea natus magnam? 
-      Voluptatibus mollitia perspiciatis facilis enim corrupti, 
-      sunt qui repellendus consequatur sit at delectus error.
-    </p>
-    </Modal>
+    {
+      showModal && <Modal setShowModal={setShowModal}>
+        <h1 className="title">Modal</h1>
+        <hr />
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+          Deleniti vitae repudiandae quo sequi ea natus magnam? 
+          Voluptatibus mollitia perspiciatis facilis enim corrupti, 
+          sunt qui repellendus consequatur sit at delectus error.
+        </p>
+      </Modal>
+    }
     </>
   )
 }
