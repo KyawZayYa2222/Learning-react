@@ -12,15 +12,17 @@ export default function App() {
 
   let [showModal, setShowModal] = useState(false);
 
+  let className = 'text-danger';
+
   return (
     <>
     <Navbar setShowModal={setShowModal}/>
     <Post posts={posts}></Post>
     {
-      showModal && <Modal setShowModal={setShowModal}>
+      showModal && <Modal setShowModal={setShowModal} danger={false}>
         <h1 className="title">Modal</h1>
         <hr />
-        <p>
+        <p className={`text ${className}`}>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
           Deleniti vitae repudiandae quo sequi ea natus magnam? 
           Voluptatibus mollitia perspiciatis facilis enim corrupti, 
