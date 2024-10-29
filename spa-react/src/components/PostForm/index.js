@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useRef} from 'react'
 import './index.css'
 
 export default function PostForm({uploadPost, setShowModal}) {
-  let [title, setTitle] = useState('')
+  // let [title, setTitle] = useState('')
+  let title = useRef();
   
 //   let onChangeHandler = (e) => {
 //     setTitle(e.target.value)
 //   }
 
   let reset = () => {
-    setTitle('');
+    // setTitle('');
+    if(title.current) {
+      title.current.value = ''
+    }
   }
 
   let addPost = (e) => {
@@ -17,7 +21,7 @@ export default function PostForm({uploadPost, setShowModal}) {
     
     let post = {
       id: Math.floor(Math.random() * 10000),
-      title: title
+      title: title.current ? title.current.value : ''
     }
 
     uploadPost(post);
@@ -30,9 +34,9 @@ export default function PostForm({uploadPost, setShowModal}) {
   return (
     <div className="post-form-component">
         <h1>Post Form</h1>
-        <p>{title}</p>
+        <p>Title</p>
         <form action="" onSubmit={addPost}>
-            <input type="text" onChange={(e) => setTitle(e.target.value)} value={title}/> {/* Two way data binding */}
+            <input type="text" ref={title}/> {/* Two way data binding */}
             <button type='submit' className='btn'>Create</button>
         </form>
     </div>
