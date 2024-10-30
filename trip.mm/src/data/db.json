@@ -1,0 +1,16 @@
+{
+    "trips": [
+        {
+            "name": "Chaung Thar",
+            "price": 100000
+        },
+        {
+            "name": "Bagan",
+            "price": 300000
+        },
+        {
+            "name": "Inlay",
+            "price": 400000
+        }
+    ]
+}
