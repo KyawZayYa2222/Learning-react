@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function useFetch(url) {
+export default function useFetch(url, _name) {
     let [data, setData] = useState(null)
     let [loading, setLoading] = useState(false)
     let [error, setError] = useState(null)
+    let name = useRef(_name)
 
     useEffect(() => {
+        let abortController = new AbortController();
+        let signal = abortController.signal;
         setLoading(true)
-        fetch(url)
+        fetch(url, {
+            signal
+        })
         .then(resp => {
             console.log(resp)
             if(!resp.ok) {
@@ -18,10 +23,16 @@ export default function useFetch(url) {
         .then(data => {
             setLoading(false)
             setData(data)
+            setError(null)
             console.log(data)
         })
         .catch(err => setError(err.message))
-    }, [url])
+
+        // cleanup function 
+        return () => {
+            abortController.abort()
+        }
+    }, [url, name])
 
     return {data, loading, error} // {data} means {data: data}
 }

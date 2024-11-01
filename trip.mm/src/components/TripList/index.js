@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import useFetch from '../../hooks/useEffect'
+import useFetch from '../../hooks/useFetch'
 import './index.css'
 
 export default function TripList() {
   let [url, setUrl] = useState('http://localhost:3002/trips')
 
-  let {data: trips, loading, error} = useFetch(url);
+  let {data: trips, loading, error} = useFetch(url, {name: 'hello'});
 
   return (
     <div className='trip-list-component'>
