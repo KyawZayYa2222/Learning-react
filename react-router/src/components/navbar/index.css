@@ -1,0 +1,26 @@
+.navbar {
+    color: aliceblue;
+    background-color: rgb(3, 119, 221);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5em;
+    padding-right: 5em;
+}
+
+.navbar h1 {
+    padding: 0;
+}
+
+.navbar ul .li{
+    cursor: pointer;
+    display: inline;
+    text-decoration: none;
+    padding-right: 1em;
+}
+
+.navbar ul .active {
+    color: rgb(102, 253, 42);
+    text-decoration: underline;
+    transition: all .3s ease-in;
+}
