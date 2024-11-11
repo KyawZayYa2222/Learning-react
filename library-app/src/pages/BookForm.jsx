@@ -1,13 +1,49 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
-import useFetch from '../hooks/useFetch'
+import { useEffect, useState } from 'react'
+import { db } from '../firebase'
+import { addDoc, updateDoc, collection } from 'firebase/firestore'
+import { useParams, useNavigate } from'react-router-dom'
+import { doc, getDoc } from 'firebase/firestore'
 
-export default function BookCreate() {
+export default function BookForm() {
+    let [isEdit, setIsEdit] = useState(false);
+    let [loading, setLoading] = useState(false)
+    let [error, setError] = useState('')
     let [title, setTitle] = useState('')
     let [description, setDescription] = useState('')
     let [category, setCategory] = useState('')
     let [categories, setCategories] = useState([])
+
+    let {id} = useParams();
+
+    let navigate = useNavigate();
+    
+    useEffect(() => {
+        if(id) {
+            setIsEdit(true);
+            console.log('edit form')
+            let ref = doc(db, 'books', id)
+            getDoc(ref)
+            .then((doc) => {
+                let book = {id: doc.id,...doc.data()}
+                console.log(book)
+                if(!doc.exists) {
+                    setError('No data found')
+                } else {
+                    let book = {id: doc.id,...doc.data()}
+                    setLoading(false)
+                    console.log(book)
+                    setTitle(book.title)
+                    setDescription(book.description)
+                    setCategories(book.categories)
+                    setError('')
+                }
+            })
+        } else {
+            console.log('create form')
+        }
+    }, [])
 
     let addCategory = () => {
         if(categories.includes(category)) return;
@@ -16,19 +52,24 @@ export default function BookCreate() {
         console.log(categories)
     }
 
-    let {setPostData} = useFetch("http://localhost:3001/books", "POST")
-
     let handleSubmit = (e) => {
         e.preventDefault()
         let postData = {
-            id: Math.floor(Math.random() * 10000),
             title: title,
-            content: description,
+            description: description,
             categories: categories
         }
-
-        setPostData(postData)
-        console.log(postData)
+        console.log('submitting form')
+        
+        if(isEdit) {
+            let ref = doc(db, 'books', id)
+            updateDoc(ref, postData)
+        } else {
+            let ref = collection(db, 'books')
+            addDoc(ref, postData)
+        }
+        
+        navigate('/');
     }
 
     return (
@@ -74,7 +115,7 @@ export default function BookCreate() {
 
                 <div className="flex items-center justify-end">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Create
+                        {isEdit ? 'Update' : 'Create'}
                     </button>
                 </div>
             </form>
