@@ -4,7 +4,7 @@ import {
 import Layout from "../layouts/Layout";
 import Home from "../pages/Home";
 import Content from "../pages/Content";
-import BookCreate from "../pages/BookCreate";
+import BookForm from "../pages/BookForm";
 
 
 const router = createBrowserRouter([
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/create",
-        element: <BookCreate/>
+        element: <BookForm/>
+      },
+      {
+        path: "/edit/:id",
+        element: <BookForm/>
       }
     ]
 },

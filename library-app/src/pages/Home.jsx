@@ -1,14 +1,48 @@
 import { Link } from 'react-router-dom'
 import bookImg from '../assets/RS0022-1.jpg'
-import useFetch from '../hooks/useFetch'
-import { useContext } from 'react'
+// import useFetch from '../hooks/useFetch'
+import { useContext, useEffect } from 'react'
 import { ThemeContext } from '../contexts/ThemeContext'
+import { collection, getDocs, orderBy, query, doc, deleteDoc, onSnapshot } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useState } from'react'
 
 export default function Home() {
-  let {data: books, loading, error} = useFetch("http://localhost:3001/books")
+//   let {data: books, loading, error} = useFetch("http://localhost:3001/books")
+let [error, setError] = useState('')
+let [books, setBooks] = useState([])
+let [loading, setLoading] = useState(false)
 
   let {theme} = useContext(ThemeContext)
   console.log(theme)
+
+  useEffect(() => {
+    setLoading(true)
+    let ref = collection(db, 'books')
+    let q = query(ref, orderBy('title'))
+    onSnapshot(q, (docs) => {
+        if(docs.empty) {
+            setError('No data found')
+        } else {
+            let books = [];
+            docs.forEach((doc) => {
+                let book = {id: doc.id,...doc.data()}
+                books.push(book)
+            })
+            setLoading(false)
+            setBooks(books)
+            setError('')
+        }
+    })
+  }, [])
+
+  let deleteBook = async (e, id) => {
+    e.preventDefault()
+    let ref = doc(db, 'books', id)
+    await deleteDoc(ref)
+    setBooks(books.filter((b) => b.id!== id))
+  }
+    
 
   return (
         <>
@@ -28,6 +62,11 @@ export default function Home() {
                                 ))
                             }
                         </div>
+                        <Link to={`/edit/${b.id}`}>
+                        <button className='bg-blue-600 hover:bg-blue-500 border duration-200 border-blue-700 text-gray-100 p-1 rounded-md ms-2 mb-2'>Update</button>
+                        </Link>
+                        <button onClick={(e) => deleteBook(e, b.id)} 
+                        className='bg-red-600 hover:bg-red-500 border duration-200 border-red-700 text-gray-100 p-1 rounded-md ms-2 mb-2'>Delete</button>
                     </div>
                     </Link>
                 ))
